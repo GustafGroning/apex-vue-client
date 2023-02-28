@@ -28,23 +28,26 @@ export default {
   },
   methods: {
     async loginUser() {
-      try {
-        const response = await axios.post("http://localhost:3000/login", {
-          email: this.email,
-          password: this.password,
-        });
-        const token = response.data.token;
-        if (token) {
-          // Save the token to localStorage or a cookie
-          localStorage.setItem("token", token);
-          this.$router.push("/homepage");
-        } else {
-          this.error = "Invalid email or password";
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
+  try {
+    const response = await axios.post("http://localhost:3000/login", {
+      email: this.email,
+      password: this.password,
+    });
+    const token = response.data.token;
+    console.log(token);
+    if (token) {
+      // Set the token as a cookie
+      document.cookie = `token=${token};path=/`;
+      this.$router.push("/homepage");
+    } else {
+      this.error = "Invalid email or password";
+    }
+  } catch (error) {
+    console.error(error);
+  }
+},
+
+
   },
 };
 </script>
